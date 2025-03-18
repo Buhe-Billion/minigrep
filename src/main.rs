@@ -10,7 +10,7 @@ fn main
 
 //    let (query,filePath): (&str, &str) = parseConfig(&args);
 
-    let config: Config = parseConfig(&args);
+    let config: Config = Config::new(&args);
 
     println!("Search for {0}",config.query);
     println!("In file {0}",config.filePath); //The 0 here is an index!!??!! wow!
@@ -40,13 +40,16 @@ fn parseConfig
 }
 */
 
-fn parseConfig
-(args: &[String]) -> Config
+impl Config
 {
-    let query = args[1].clone();
-    let filePath = args[2].clone();
+    fn new
+    (args: &[String]) -> Config
+    {
+        let query: String = args[1].clone();
+        let filePath: String = args[2].clone();
 
-    Config {query, filePath }
+        Config {query, filePath }
+    }
 }
 
 struct Config
