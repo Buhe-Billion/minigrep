@@ -1,6 +1,6 @@
 #![allow(warnings)]
 
-use std::{env, fs};
+use std::{env, fs, process};
 
 fn main
 ()
@@ -10,7 +10,15 @@ fn main
 
 //    let (query,filePath): (&str, &str) = parseConfig(&args);
 
-    let config: Config = Config::new(&args);
+    let config: Config = Config::build(&args)
+    .unwrap_or_else
+    (
+        |err|
+        {
+            println!("Problem parsing arguments: {err}");
+            process::exit(1);
+        }
+    );
 
     println!("Search for {0}",config.query);
     println!("In file {0}",config.filePath); //The 0 here is an index!!??!! wow!
@@ -42,13 +50,17 @@ fn parseConfig
 
 impl Config
 {
-    fn new
-    (args: &[String]) -> Config
+    fn build
+    //We can return a Config instance or a string literal
+    (args: &[String]) -> Result<Config, &'static str>
     {
+        if args.len() < 3
+        { return Err("not enough arguments"); }
+
         let query: String = args[1].clone();
         let filePath: String = args[2].clone();
 
-        Config {query, filePath }
+        Ok(Config { query, filePath })
     }
 }
 
