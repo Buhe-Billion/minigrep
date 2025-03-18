@@ -50,7 +50,4 @@ fn parseConfig
 }
 
 struct Config
-{
-    query: String,
-    filePath: String,
-}
+{ query: String, filePath: String, }
