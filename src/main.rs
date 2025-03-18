@@ -1,6 +1,7 @@
-#![allow(warnings)]
+#![allow(non_snake_case)]
 
-use std::{env, fs, process};
+use std::{env, process};
+use minigrep::Config;
 
 fn main
 ()
@@ -29,10 +30,11 @@ fn main
     .expect("Should have been able to read the file");
 */
 
-    let contents:String = fs::read_to_string(config.filePath)
-    .expect("Shoulda been able to read the file");
-
-    println!("With text: \n {contents}");
+    if let Err(e) = minigrep::run(config)
+    {
+        println!("App error: {e}");
+        process::exit(1);
+    }
 }
 
 /*
@@ -47,22 +49,3 @@ fn parseConfig
     (query,filePath)
 }
 */
-
-impl Config
-{
-    fn build
-    //We can return a Config instance or a string literal
-    (args: &[String]) -> Result<Config, &'static str>
-    {
-        if args.len() < 3
-        { return Err("not enough arguments"); }
-
-        let query: String = args[1].clone();
-        let filePath: String = args[2].clone();
-
-        Ok(Config { query, filePath })
-    }
-}
-
-struct Config
-{ query: String, filePath: String, }
