@@ -1,6 +1,6 @@
 #![allow(warnings)]
 
-use std::env;
+use std::{env, fs};
 
 fn main
 ()
@@ -9,8 +9,13 @@ fn main
     dbg!(&args);
 
     let query: &str = &args[1];
-    let filePath = &args[2];
+    let filePath: &str = &args[2];
 
     println!("Search for {query}");
     println!("In file {filePath}");
+
+    let contents:String  = fs::read_to_string(filePath)           // fs::read_to_string opens a file and returns std::io::Result<String>
+    .expect("Should have been able to read the file");
+
+    println!("With text: \n {contents}");
 }
