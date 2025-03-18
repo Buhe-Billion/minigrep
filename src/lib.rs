@@ -1,13 +1,16 @@
 #![allow(non_snake_case)]
 
-use std::{error::Error, fs};
+use std::{error::Error, fs, env};
 
 pub fn run
 (config: Config) -> Result< (), Box<dyn Error> >
 {
     let contents:String = fs::read_to_string(config.filePath)?;
 
-    for line in search(&config.query, &contents)
+    let results:Vec<&str> = if config.ignoreCase { searchCaseInsensitive(&config.query, &contents) }
+    else { search(&config.query, &contents)}; //Ok, wow. But xuld be expected since if is an expression?!
+
+    for line in results
     { println!("{line}"); }
     Ok(())
 }
@@ -63,13 +66,11 @@ impl Config
 
         let query: String = args[1].clone();
         let filePath: String = args[2].clone();
-
-        Ok(Config { query, filePath })
+        let ignoreCase: bool = env::var("IGNORE_CASE").is_ok();
+        eprintln!("{ignoreCase}");
+        Ok(Config { query, filePath, ignoreCase })
     }
 }
-
-pub struct Config
-{ pub query: String, pub filePath: String, }
 
 pub fn search
 <'a> (query: &str, contents:&'a str) -> Vec<&'a str>
@@ -101,3 +102,6 @@ pub fn searchCaseInsensitive
     results
     //fn is not water proof according to Unicode standards!
 }
+
+pub struct Config
+{ pub query: String, pub filePath: String, pub ignoreCase: bool,}

@@ -16,7 +16,7 @@ fn main
     (
         |err|
         {
-            println!("Problem parsing arguments: {err}");
+            eprintln!("Problem parsing arguments: {err}");
             process::exit(1);
         }
     );
@@ -32,7 +32,7 @@ fn main
 
     if let Err(e) = minigrep::run(config)
     {
-        println!("App error: {e}");
+        eprintln!("App error: {e}");
         process::exit(1);
     }
 }
