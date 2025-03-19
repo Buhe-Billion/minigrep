@@ -162,7 +162,7 @@ pub fn searchCaseInsensitive
 //Could've done this within the the closure, i.e:
 //.filter(|line| line.to_lowercase().contains(&query.to_lowercase()))
 //but that'd be too much unneeded repetation.
-    let query: String = query.to_lowercase();
+    let query: String = query.to_lowercase();//shadow the argument.
 
     contents
     .lines()
