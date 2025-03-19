@@ -140,23 +140,36 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str>
     .collect()
 }
 
-
+/*finito
 pub fn searchCaseInsensitive
 <'a> (query:&str, contents:&'a str,) -> Vec<&'a str>
 {
     let query: String = query.to_lowercase();
     let mut results: Vec<&'a str> = Vec::new();
-
     for line in contents.lines()
     {
 //ampersand to query coz contains() is defined as taking a string slice
         if line.to_lowercase().contains(&query)
         { results.push(line); }
     }
-
     results
     //fn is not water proof according to Unicode standards!
+}   finito*/
+
+pub fn searchCaseInsensitive
+<'a> (query:&str, contents:&'a str,) -> Vec<&'a str>
+{
+//Could've done this within the the closure, i.e:
+//.filter(|line| line.to_lowercase().contains(&query.to_lowercase()))
+//but that'd be too much unneeded repetation.
+    let query: String = query.to_lowercase();
+
+    contents
+    .lines()
+    .filter(|line| line.to_lowercase().contains(&query))
+    .collect()
 }
+
 
 pub struct Config
 { pub query: String, pub filePath: String, pub ignoreCase: bool,}
