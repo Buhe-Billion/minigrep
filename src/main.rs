@@ -6,6 +6,7 @@ use minigrep::Config;
 fn main
 ()
 {
+    /* finito
     let args: Vec<String> = env::args().collect();
     dbg!(&args);
 
@@ -23,7 +24,20 @@ fn main
 
     println!("Search for {0}",config.query);
     println!("In file {0}",config.filePath); //The 0 here is an index!!??!! wow!
+ finito */
 
+ //env::args() returns an iterator, in this new version we pass ownership direclty into Config::build()
+ //
+
+    let config = Config::build(env::args())
+    .unwrap_or_else
+    (
+        |err|
+        {
+            eprintln!("Problem parsing arguments: {err}");
+            process::exit(1);
+        }
+    );
 /*
 // fs::read_to_string opens a file and returns std::io::Result<String>
     let contents:String  = fs::read_to_string(filePath)
