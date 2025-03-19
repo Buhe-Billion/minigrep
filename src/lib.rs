@@ -112,6 +112,7 @@ impl Config
 
 finito*/
 
+/*finito
 pub fn search
 <'a> (query: &str, contents:&'a str) -> Vec<&'a str>
 {
@@ -125,7 +126,19 @@ pub fn search
 
     results
 }
+finito*/
 
+//The functional programming style prefers to minimize the amount of mutable state to make code clearer.
+//Removing the mutable state might enable a future enhancement to make searching happen in parallel,
+//because we wouldn’t have to manage concurrent access to the results vector:
+
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str>
+{
+    contents
+    .lines()
+    .filter(|line| line.contains(query))
+    .collect()
+}
 
 
 pub fn searchCaseInsensitive
